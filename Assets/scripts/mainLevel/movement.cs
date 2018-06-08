@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class movement : MonoBehaviour {
 
-    public int playerSpeed = 10, playerJumpPower = 1250, health = 100, deathTimer = 120, fallTime = 200, shieldHealth = 4, score;
+    public int playerSpeed = 10, playerJumpPower = 1250, health = 100, deathTimer = 120, fallTime = 200, shieldHealth = 4;
     private int flipTimer, jumpsLeft = 2, direction, respawnTimer = 150, wavenumber = 1; //MAKES SURE ANIMATIONS DON'T FLIP DON'T FLIP TOO OFTEN
     public GameObject bulletPrefab, camera, drop_ship, home_base, backGround;
     public TextEditor text;
@@ -15,7 +15,7 @@ public class movement : MonoBehaviour {
     private float moveX, backGroundVolume;
     Animator animator;
     public AnimationClip runShoot, run, crouch;
-    
+    public int score = 0;
     public Texture2D cursorTexture;
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
@@ -48,7 +48,7 @@ public class movement : MonoBehaviour {
         isGrounded = GetComponentInChildren<enemyChild>().isGrounded;
 
         if (isGrounded) { jumpsLeft = 1; }
-
+        print("SCORE: " + score);
         //CONTROLS
         crouch.wrapMode = WrapMode.Once;
 
@@ -284,12 +284,12 @@ public class movement : MonoBehaviour {
             }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == ("enemyBullet"))
+        if ((collision.tag == ("enemyBullet"))||(collision.tag == ("bossBullet")))
         {
-            Destroy(collision.gameObject);
-                if(shieldHealth > 0) { shieldHealth -= 1; }
+                Destroy(collision.gameObject);
+            if (shieldHealth > 0) { shieldHealth -= 1; }
                 else
                 {
                     health -= 10;
@@ -326,6 +326,29 @@ public class movement : MonoBehaviour {
     void hit()
     {
         
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == ("GFL"))
+        {
+            if (shieldHealth > 0) { shieldHealth -= 1; }
+            else
+            {
+                health -= 1;
+            }
+            if (health <= 0)
+            {
+                if (animator.GetBool("isDead") == false)
+                {
+                    animator.SetTrigger("ded");
+                    animator.SetBool("isDead", true);
+                    track.clip = hitSound; track.Play();
+                    isDead = true;
+                }
+            }
+        }
+
     }
 
 }

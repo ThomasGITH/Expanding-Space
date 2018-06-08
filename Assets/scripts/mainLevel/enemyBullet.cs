@@ -52,9 +52,9 @@ public class enemyBullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "platform")
+        if(((collision.tag == "platform")||(collision.tag == "Player"))||(collision.tag == "base"))
         {
             Destroy(gameObject);
         }

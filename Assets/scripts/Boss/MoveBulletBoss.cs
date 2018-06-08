@@ -22,9 +22,9 @@ public class MoveBulletBoss : MonoBehaviour {
         GetComponent<Rigidbody2D>().velocity = new Vector2(-1 * BulletSpeed, GetComponent<Rigidbody2D>().velocity.y);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if((collision.collider.tag == "base")|| (collision.collider.tag == "Player"))
+        if((collision.tag == "base")|| (collision.tag == "Player"))
         {
             Destroy(gameObject);
         }

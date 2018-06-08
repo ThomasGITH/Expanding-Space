@@ -159,13 +159,14 @@ public class enemyBehaviour : MonoBehaviour {
         hasJumped = true;
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == ("bullet"))
         {
             //Destroy(gameObject);
             Destroy(other.gameObject);
             health -= 50;
+            player.gameObject.GetComponent<movement>().score += 20;
             if(health <= 0)
             {
                 if (!isdead)

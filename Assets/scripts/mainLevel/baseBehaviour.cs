@@ -7,7 +7,7 @@ public class baseBehaviour : MonoBehaviour {
     public int health = 1500, totalHealth;
     public Sprite base1, base2, base3, base4, base5,base6,base7;
     private SpriteRenderer spriteRenderer;
-    int damage, baseID = 0, spriteSwitch;
+    private int damage, baseID = 0, spriteSwitch;
 
     // Use this for initialization
     void Start () {
@@ -30,11 +30,13 @@ public class baseBehaviour : MonoBehaviour {
                 spriteRenderer.sprite = fields[baseID];
             }
         }
+
+        print("BASE HEALTH: " + health);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == ("enemyBullet"))
+        if (collision.tag == ("enemyBullet"))
         {
             health -= 10;
             if(health < 0)
@@ -42,9 +44,16 @@ public class baseBehaviour : MonoBehaviour {
                 health = 0;
             }
             Destroy(collision.gameObject);
-        }else if (collision.gameObject.tag == ("bullet"))
+        }else if (collision.tag == ("bullet"))
         {
             Destroy(collision.gameObject);
+        }else if (collision.tag == ("bossBullet"))
+        {
+            health -= 17;
+            if (health < 0)
+            {
+                health = 0;
+            }
         }
     }
 }

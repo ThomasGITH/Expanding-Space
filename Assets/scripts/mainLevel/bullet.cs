@@ -15,6 +15,9 @@ public class bullet : MonoBehaviour {
         {
             gameObject.transform.Rotate(Vector3.forward * -90);
         }
+
+        GameObject[] player_list = GameObject.FindGameObjectsWithTag("Player");
+        player = player_list[0];
     }
 	
 	// Update is called once per frame
@@ -53,6 +56,14 @@ public class bullet : MonoBehaviour {
         if (collision.gameObject.tag == "platform")
         {
             print("DETECTING PLATFORM");
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((collision.gameObject.tag == "platform")|| (collision.gameObject.tag == "enemy"))
+        {
             Destroy(gameObject);
         }
     }
