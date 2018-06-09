@@ -10,7 +10,9 @@ public class StartGame : MonoBehaviour {
 
     public void OpenScene()
     {
-        LevelSelectPrefab.SetActive(false);
-        SceneManager.LoadScene(LevelName, LoadSceneMode.Additive);
+        //LevelSelectPrefab.SetActive(false);
+        SceneManager.LoadScene(LevelName, LoadSceneMode.Single);
+        //SceneManager.as
+        
     }
 }

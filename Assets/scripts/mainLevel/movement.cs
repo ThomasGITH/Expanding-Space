@@ -52,10 +52,16 @@ public class movement : MonoBehaviour {
         //CONTROLS
         crouch.wrapMode = WrapMode.Once;
 
+        if(animator.GetBool("isCrouching") == false)
+        {
+            
+        }
+
         if ((Input.GetKey(KeyCode.S))&&(isGrounded))
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("crouch")){
                 animator.SetBool("isCrouching", true);
+                animator.SetTrigger("crouch");
             }
            main.enabled = false;
             moveX = 0.0f;
@@ -65,6 +71,7 @@ public class movement : MonoBehaviour {
             moveX = Input.GetAxis("Horizontal");
             animator.SetBool("isCrouching", false);
             main.enabled = true;
+            animator.speed = 1;
         }
         else { moveX = 0.0f; }
 
@@ -323,9 +330,9 @@ public class movement : MonoBehaviour {
         else if(health > 100) { health = 100; }
     }
 
-    void hit()
+    void pauseCrouch()
     {
-        
+        animator.speed = 0.0f;
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -14,7 +14,8 @@ public class bossBehaviour : MonoBehaviour
     private int focuspoint = 0, focusTimer = 200, fireTimer = 0, reloadTimer = 0, chargeTime = 100, despawnTimer = 150;
     private bool isGrounded, hasJumped = true;
     Animator animator;
-
+    public AudioClip charge, beam, bossBullet;
+    public AudioSource track;
     public bool isWalking, isAttacking;
 
     // Use this for initialization
@@ -128,7 +129,6 @@ public class bossBehaviour : MonoBehaviour
         isWalking = false;
         isAttacking = true;
 
-
         float rayStartPoint;
         if (!GetComponent<SpriteRenderer>().flipX) { rayStartPoint = transform.position.x - 2; }
         else { rayStartPoint = transform.position.x - 2; }
@@ -139,19 +139,23 @@ public class bossBehaviour : MonoBehaviour
 
         fireTimer -= 1;
 
-        if (fireTimer <= 0)
+        if ((fireTimer <= 0)||(health <= 0))
         {
+            if(health <= 0)
+            {
+                track.Stop();
+            }
             animator.speed = 1;
             GFL.SetActive(false);
             if (hit.collider != null)
             {
-                if ((hit.collider.tag == "base") || (hit.collider.tag == "Player"))
+                if (((hit.collider.tag == "base"))|| ((hit.collider.tag == "Player")))
                 {
                     int randomNumber = Random.Range(0, 100);
                     if ((randomNumber <= 40) && (reloadTimer == 0))
                     {
-                        animator.SetBool("shootingLaser", false);
                         animator.SetBool("shootingGFL", true);
+                        animator.SetBool("shootingLaser", false);
                         reloadTimer = 1;
                     }
                     else
@@ -164,26 +168,27 @@ public class bossBehaviour : MonoBehaviour
             }
             fireTimer = 301;
         }
-
-        if (chargeTime < 100)
+        
+        if(animator.speed == 0.0f)
         {
             chargeTime -= 1;
+            if((chargeTime <= 0)&&((chargeTime > -100)))
+            {
+                GFL_Warning.SetActive(false);
+                GFL.SetActive(true);
+                if(track.clip != beam)
+                {
+                    track.clip = beam;
+                    track.Play();
+                }
+            }else if ((chargeTime <= -100) && ((chargeTime > -300)))
+            {
+                //GFL.SetActive(false);
+                chargeTime = 100;
+            }
         }
 
-        if ((chargeTime <= 0) && (animator.speed == 0.0f))
-        {
-            GFL.SetActive(true);
-            GFL_Warning.SetActive(false);
-            chargeTime = 100;
-        }
-
-        /*
-        if((animator.speed == 0.0f)&&(GFL.active == true))
-        {
-            home_base.gameObject.GetComponent<baseBehaviour>().health -= 4;
-            print("BEEEAAAMMM" + " BASE HEALTH: " + home_base.gameObject.GetComponent<baseBehaviour>().health);
-        }
-        */
+        print("Firetimer: " + fireTimer + " chargeTime: " + chargeTime + "reloadTimer: " + reloadTimer);
     }
 
     void jump()
@@ -196,11 +201,13 @@ public class bossBehaviour : MonoBehaviour
     {
         animator.speed = 0.0f;
         GFL_Warning.SetActive(true);
-        chargeTime -= 1;
+        track.clip = charge;
+        track.Play();
     }
 
     void shootLaser()
     {
+        track.clip = bossBullet;
         StartCoroutine("Fire");
     }
 
@@ -220,6 +227,7 @@ public class bossBehaviour : MonoBehaviour
             {
                 var projectile = Instantiate(Laser, new Vector2(transform.position.x - 2.5f, transform.position.y + 1.6f), transform.rotation);
             }
+            track.Play();
             yield return null;
         }
     }

@@ -93,7 +93,7 @@ public class dropship : MonoBehaviour {
         if (j < wave.getBossCount())
         {
             j++;
-            var largeEnemy = (GameObject)Instantiate(boss, new Vector2(transform.position.x + 3, transform.position.y), transform.rotation);
+            var largeEnemy = (GameObject)Instantiate(boss, new Vector2(transform.position.x, transform.position.y), transform.rotation);
         }
         
     }

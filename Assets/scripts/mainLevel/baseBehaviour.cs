@@ -31,7 +31,10 @@ public class baseBehaviour : MonoBehaviour {
             }
         }
 
-        print("BASE HEALTH: " + health);
+        if (health < 0)
+        {
+            health = 0;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

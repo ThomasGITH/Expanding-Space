@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1660568934490568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.45446, y: -8.498152, z: -1.40625}
+  m_LocalPosition: {x: 11.382977, y: 8.096378, z: -1.40625}
   m_LocalScale: {x: 4.5, y: 4.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7.5
   astronaut: {fileID: 1523601988028872, guid: 4104ccf3652dd1b4a81e2107d4b4ee46, type: 2}
-  boss: {fileID: 1716584969646890, guid: 30e9a61d036466243901318475e6ac53, type: 2}
+  boss: {fileID: 1799462731073004, guid: 22cbddba7e4c70e49b097407fdb6891c, type: 2}
   cybernaut: {fileID: 1400471296865184, guid: 7dbaf5a2e76d9fd4eacad515e1827d75, type: 2}
   waveNumber: 1
 --- !u!114 &114293387277570362
